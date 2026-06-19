@@ -1,5 +1,6 @@
 package com.afollestad.aesthetic;
 
+import android.util.Log;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -11,11 +12,13 @@ import io.reactivex.functions.Consumer;
 /** @author Aidan Follestad (afollestad) */
 public final class Rx {
 
+  private static final String TAG = "Rx";
+
   public static Consumer<Throwable> onErrorLogAndRethrow() {
     return new Consumer<Throwable>() {
       @Override
       public void accept(@NonNull Throwable throwable) throws Exception {
-        throwable.printStackTrace();
+        Log.e(TAG, "Unhandled Rx error", throwable);
         throw Exceptions.propagate(throwable);
       }
     };

@@ -8,6 +8,8 @@ import java.io.File;
 
 public class LegacyUtils {
 
+    private static final String TAG = "LegacyUtils";
+
     private LegacyUtils() {
 
     }
@@ -22,24 +24,30 @@ public class LegacyUtils {
                     File[] files = file.listFiles();
                     if (files != null) {
                         for (File child : files) {
-                            child.delete();
+                            deleteFile(child);
                         }
                     }
-                    file.delete();
+                    deleteFile(file);
                 }
             }
 
             //Delete old http cache
             File oldHttpCache = application.getDiskCacheDir("http");
             if (oldHttpCache != null && oldHttpCache.exists()) {
-                oldHttpCache.delete();
+                deleteFile(oldHttpCache);
             }
 
             //Delete old thumbs cache
             File oldThumbsCache = application.getDiskCacheDir("thumbs");
             if (oldThumbsCache != null && oldThumbsCache.exists()) {
-                oldThumbsCache.delete();
+                deleteFile(oldThumbsCache);
             }
         });
+    }
+
+    private static void deleteFile(File file) {
+        if (!file.delete()) {
+            LogUtils.log(TAG, "Failed to delete legacy file: " + file.getAbsolutePath());
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.simplecity.amp_library.ui.modelviews;
 
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import com.bumptech.glide.RequestManager;
@@ -172,7 +171,7 @@ public class AlbumArtistView extends MultiItemView<AlbumArtistView.ViewHolder, A
                 break;
         }
 
-        if (!TextUtils.isEmpty(string)) {
+        if (string != null && !string.isEmpty()) {
             string = string.substring(0, 1).toUpperCase();
         } else {
             string = " ";

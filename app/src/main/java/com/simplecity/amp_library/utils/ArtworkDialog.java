@@ -157,13 +157,21 @@ public class ArtworkDialog {
 
                             // Create dir if necessary
                             if (!dir.exists()) {
-                                dir.mkdirs();
+                                if (!dir.mkdirs()) {
+                                    LogUtils.log(TAG, "Failed to create artwork directory: " + dir.getAbsolutePath());
+                                    return null;
+                                }
                             } else {
                                 // Delete any existing artwork for this key.
                                 if (dir.isDirectory()) {
                                     String[] children = dir.list();
-                                    for (String child : children) {
-                                        new File(dir, child).delete();
+                                    if (children != null) {
+                                        for (String child : children) {
+                                            File childFile = new File(dir, child);
+                                            if (!childFile.delete()) {
+                                                LogUtils.log(TAG, "Failed to delete old artwork file: " + childFile.getAbsolutePath());
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -171,7 +179,9 @@ public class ArtworkDialog {
                             File file = new File(dir.getPath() + System.currentTimeMillis() + ".artwork");
 
                             try {
-                                file.createNewFile();
+                                if (!file.createNewFile()) {
+                                    LogUtils.log(TAG, "Artwork file already exists: " + file.getAbsolutePath());
+                                }
                                 if (file.exists()) {
                                     return RxImageConverters.uriToFile(context, uri, file);
                                 }

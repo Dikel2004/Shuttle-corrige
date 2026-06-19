@@ -18,6 +18,7 @@ import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import io.reactivex.Observable;
@@ -29,6 +30,8 @@ import java.lang.reflect.Field;
 /** @author Aidan Follestad (afollestad) */
 public class AestheticCoordinatorLayout extends CoordinatorLayout
     implements AppBarLayout.OnOffsetChangedListener {
+
+  private static final String TAG = "AestheticCoordinator";
 
   private Disposable toolbarColorSubscription;
   private Disposable statusBarColorSubscription;
@@ -69,7 +72,7 @@ public class AestheticCoordinatorLayout extends CoordinatorLayout
         field.set(toolbar, TintHelper.createTintedDrawable(collapseIcon, colors.toEnabledSl()));
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      Log.w(TAG, "Unable to tint toolbar collapse icon", e);
     }
 
     final PorterDuffColorFilter colorFilter =

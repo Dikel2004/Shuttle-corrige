@@ -21,6 +21,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.TintableBackgroundView;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,6 +37,8 @@ import java.lang.reflect.Field;
 /** @author Aidan Follestad (afollestad) */
 @RestrictTo(LIBRARY_GROUP)
 final class TintHelper {
+
+  private static final String TAG = "TintHelper";
 
   @SuppressLint("PrivateResource")
   @ColorInt
@@ -497,7 +500,7 @@ final class TintHelper {
       drawables[1] = createTintedDrawable(drawables[1], color);
       fCursorDrawable.set(editor, drawables);
     } catch (Exception e) {
-      e.printStackTrace();
+      Log.w(TAG, "Unable to tint cursor", e);
     }
   }
 }

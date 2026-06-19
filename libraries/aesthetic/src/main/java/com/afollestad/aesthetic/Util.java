@@ -25,6 +25,7 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ import java.lang.reflect.Field;
 /** @author Aidan Follestad (afollestad) */
 @SuppressWarnings("WeakerAccess")
 public final class Util {
+
+  private static final String TAG = "Util";
 
   static void setInflaterFactory(@NonNull LayoutInflater li) {
     LayoutInflaterCompat.setFactory(li, new InflationInterceptor());
@@ -312,7 +315,7 @@ public final class Util {
         return bitmap;
       }
     } catch (PackageManager.NameNotFoundException e) {
-      e.printStackTrace();
+      Log.w(TAG, "Unable to load application icon", e);
     }
     return null;
   }

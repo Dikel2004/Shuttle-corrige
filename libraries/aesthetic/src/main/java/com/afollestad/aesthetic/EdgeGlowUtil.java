@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.EdgeEffect;
 import android.widget.ScrollView;
@@ -22,6 +23,8 @@ import java.lang.reflect.Field;
 /** @author Aidan Follestad (afollestad) */
 @RestrictTo(LIBRARY_GROUP)
 final class EdgeGlowUtil {
+
+  private static final String TAG = "EdgeGlowUtil";
 
   private static Field EDGE_GLOW_FIELD_EDGE;
   private static Field EDGE_GLOW_FIELD_GLOW;
@@ -74,7 +77,7 @@ final class EdgeGlowUtil {
     try {
       efc = EdgeEffectCompat.class.getDeclaredField("mEdgeEffect");
     } catch (NoSuchFieldException e) {
-      if (BuildConfig.DEBUG) e.printStackTrace();
+      Log.w(TAG, "Unable to access EdgeEffectCompat field", e);
     }
     EDGE_EFFECT_COMPAT_FIELD_EDGE_EFFECT = efc;
   }
@@ -209,7 +212,7 @@ final class EdgeGlowUtil {
       ee = SCROLL_VIEW_FIELD_EDGE_GLOW_BOTTOM.get(scrollView);
       setEffectColor(ee, color);
     } catch (Exception ex) {
-      if (BuildConfig.DEBUG) ex.printStackTrace();
+      Log.w(TAG, "Unable to tint ScrollView edge glow", ex);
     }
   }
 
@@ -221,7 +224,7 @@ final class EdgeGlowUtil {
       ee = NESTED_SCROLL_VIEW_FIELD_EDGE_GLOW_BOTTOM.get(scrollView);
       setEffectColor(ee, color);
     } catch (Exception ex) {
-      if (BuildConfig.DEBUG) ex.printStackTrace();
+      Log.w(TAG, "Unable to tint NestedScrollView edge glow", ex);
     }
   }
 
@@ -233,7 +236,7 @@ final class EdgeGlowUtil {
       ee = LIST_VIEW_FIELD_EDGE_GLOW_BOTTOM.get(listView);
       setEffectColor(ee, color);
     } catch (Exception ex) {
-      if (BuildConfig.DEBUG) ex.printStackTrace();
+      Log.w(TAG, "Unable to tint AbsListView edge glow", ex);
     }
   }
 
@@ -264,7 +267,7 @@ final class EdgeGlowUtil {
       ee = RECYCLER_VIEW_FIELD_EDGE_GLOW_RIGHT.get(scrollView);
       setEffectColor(ee, color);
     } catch (Exception ex) {
-      if (BuildConfig.DEBUG) ex.printStackTrace();
+      Log.w(TAG, "Unable to tint RecyclerView edge glow", ex);
     }
   }
 
@@ -276,7 +279,7 @@ final class EdgeGlowUtil {
       ee = VIEW_PAGER_FIELD_EDGE_GLOW_RIGHT.get(pager);
       setEffectColor(ee, color);
     } catch (Exception ex) {
-      if (BuildConfig.DEBUG) ex.printStackTrace();
+      Log.w(TAG, "Unable to tint ViewPager edge glow", ex);
     }
   }
 
@@ -291,7 +294,7 @@ final class EdgeGlowUtil {
         EDGE_EFFECT_COMPAT_FIELD_EDGE_EFFECT.setAccessible(true);
         edgeEffect = EDGE_EFFECT_COMPAT_FIELD_EDGE_EFFECT.get(edgeEffect);
       } catch (IllegalAccessException e) {
-        e.printStackTrace();
+        Log.w(TAG, "Unable to unwrap EdgeEffectCompat", e);
         return;
       }
     }
@@ -310,7 +313,7 @@ final class EdgeGlowUtil {
         mEdge.setCallback(null); // free up any references
         mGlow.setCallback(null); // free up any references
       } catch (Exception ex) {
-        ex.printStackTrace();
+        Log.w(TAG, "Unable to apply legacy edge glow tint", ex);
       }
     } else {
       // EdgeEffect

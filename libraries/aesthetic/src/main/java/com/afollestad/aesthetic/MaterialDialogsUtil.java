@@ -2,6 +2,7 @@ package com.afollestad.aesthetic;
 
 import android.content.res.ColorStateList;
 import android.support.annotation.RestrictTo;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,6 +22,8 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  */
 @RestrictTo(LIBRARY_GROUP)
 final class MaterialDialogsUtil {
+
+  private static final String TAG = "MaterialDialogsUtil";
 
   static boolean shouldSupport() {
     try {
@@ -87,7 +90,7 @@ final class MaterialDialogsUtil {
       fieldLinkColor.set(instance, ColorStateList.valueOf(params.accentColor));
 
     } catch (Throwable t) {
-//      t.printStackTrace();
+      Log.w(TAG, "Unable to theme Material Dialogs parameters", t);
     }
   }
 

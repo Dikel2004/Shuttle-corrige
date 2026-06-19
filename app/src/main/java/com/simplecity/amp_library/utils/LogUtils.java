@@ -19,4 +19,12 @@ public class LogUtils {
             Crashlytics.logException(throwable);
         }
     }
+
+    public static void log(String tag, String message) {
+        if (BuildConfig.DEBUG) {
+            Log.w(tag, message);
+        } else {
+            Crashlytics.log(Log.WARN, tag, message);
+        }
+    }
 }

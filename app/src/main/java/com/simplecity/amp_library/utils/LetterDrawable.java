@@ -67,7 +67,10 @@ public class LetterDrawable extends Drawable {
     private int pickColor(String key) {
         // String.hashCode() is not supposed to change across java versions, so
         // this should guarantee the same key always maps to the same color
-        final int color = Math.abs(key.hashCode()) % mColors.length();
+        int color = key.hashCode() % mColors.length();
+        if (color < 0) {
+            color += mColors.length();
+        }
         return mColors.getColor(color, Color.BLACK);
     }
 }

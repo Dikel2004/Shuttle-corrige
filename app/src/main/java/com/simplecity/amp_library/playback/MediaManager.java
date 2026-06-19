@@ -47,6 +47,8 @@ public class MediaManager {
 
     private static final String TAG = "MediaManager";
 
+    private static final Random RANDOM = new Random();
+
     @NonNull
     public Disposable playAll(@NonNull Single<List<Song>> songsSingle, @NotNull Function0<Unit> onEmpty) {
         return songsSingle
@@ -91,7 +93,7 @@ public class MediaManager {
         analyticsManager.dropBreadcrumb(TAG, "shuffleAll()");
         setShuffleMode(QueueManager.ShuffleMode.ON);
         if (!songs.isEmpty()) {
-            playAll(songs, new Random().nextInt(songs.size()), false, onEmpty);
+            playAll(songs, RANDOM.nextInt(songs.size()), false, onEmpty);
         }
     }
 

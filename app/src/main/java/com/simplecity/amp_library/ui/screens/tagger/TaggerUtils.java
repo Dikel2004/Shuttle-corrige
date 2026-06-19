@@ -173,7 +173,9 @@ public class TaggerUtils {
         }
 
         if (!destFile.exists()) {
-            destFile.createNewFile();
+            if (!destFile.createNewFile()) {
+                throw new IOException("Failed to create destination file: " + destFile);
+            }
         }
 
         FileChannel source = null;

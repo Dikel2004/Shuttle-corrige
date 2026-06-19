@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import static com.afollestad.aesthetic.Util.resolveResId;
 
 /** @author Aidan Follestad (afollestad) */
 public final class ViewUtil {
+
+  private static final String TAG = "ViewUtil";
 
   @Nullable
   public static Observable<Integer> getObservableForResId(
@@ -59,7 +62,7 @@ public final class ViewUtil {
       if (collapseIcon != null)
         field.set(toolbar, createTintedDrawable(collapseIcon, titleIconColors.toEnabledSl()));
     } catch (Exception e) {
-      e.printStackTrace();
+      Log.w(TAG, "Unable to tint toolbar collapse icon", e);
     }
 
     // Theme menu action views
@@ -102,7 +105,7 @@ public final class ViewUtil {
       field.setAccessible(true);
       field.set(view, createTintedDrawable((Drawable) field.get(view), tintColors.toEnabledSl()));
     } catch (Exception e) {
-      e.printStackTrace();
+      Log.w(TAG, "Unable to theme search view", e);
     }
   }
 
