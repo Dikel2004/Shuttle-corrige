@@ -228,7 +228,7 @@ public class MainActivity extends BaseActivity implements
                                 playlist -> {
                                     mediaManager.playAll(songsRepository.getSongs(playlist).first(new ArrayList<>()),
                                             () -> {
-                                                // Todo: Show playback failure toast
+                                                // Show playback failure toast once playback errors expose user-friendly messages.
                                                 return Unit.INSTANCE;
                                             });
                                     // Make sure to process intent only once

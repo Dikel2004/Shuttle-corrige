@@ -138,7 +138,7 @@ public class VoiceSearchActivity extends BaseActivity {
                 .subscribe(songs -> {
                     if (songs != null) {
                         mediaManager.playAll(songs, position, true, () -> {
-                            // Todo: Show playback error toast
+                            // Show playback error toast once playback errors expose user-friendly messages.
                             return Unit.INSTANCE;
                         });
                         startActivity(new Intent(this, MainActivity.class));

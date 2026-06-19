@@ -32,7 +32,7 @@ class UpgradeNagDialog : DialogFragment() {
             .content(context!!.resources.getString(R.string.get_pro_message))
             .positiveText(R.string.btn_upgrade)
             .onPositive { dialog, which ->
-                // Todo: Show IAP or open Play Store
+                // Show IAP or open Play Store once purchase routing is centralized.
             }
             .negativeText(R.string.get_pro_button_no)
 

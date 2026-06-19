@@ -46,7 +46,7 @@ open class SongsRepository @Inject constructor(
     private val allSongsRelay = BehaviorRelay.create<List<Song>>()
 
     override fun getAllSongs(): Observable<List<Song>> {
-        if (allSongsSubscription == null || allSongsSubscription?.isDisposed == true) {
+        if (allSongsSubscription.isMissingOrDisposed) {
             allSongsSubscription = SqlBriteUtils.createObservableList<Song>(context, { Song(it) }, Song.getQuery())
                 .subscribe(
                     allSongsRelay,
@@ -59,7 +59,7 @@ open class SongsRepository @Inject constructor(
     }
 
     override fun getSongs(predicate: ((Song) -> Boolean)?): Observable<List<Song>> {
-        if (songsSubscription == null || songsSubscription?.isDisposed == true) {
+        if (songsSubscription.isMissingOrDisposed) {
             songsSubscription = getAllSongs()
                 .compose(getInclExclTransformer())
                 .map { songs ->
@@ -215,3 +215,6 @@ open class SongsRepository @Inject constructor(
         const val TAG = "SongsRepository"
     }
 }
+
+private val Disposable?.isMissingOrDisposed: Boolean
+    get() = this == null || isDisposed

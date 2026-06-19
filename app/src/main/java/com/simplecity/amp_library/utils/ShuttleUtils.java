@@ -117,21 +117,11 @@ public final class ShuttleUtils {
 
     public static boolean isUpgraded(ShuttleApplication application, SettingsManager settingsManager) {
 
-        if (application.getIsUpgraded()) {
+        if (application.getIsUpgraded() || settingsManager.getIsLegacyUpgraded()) {
             return true;
         }
 
-        if (settingsManager.getIsLegacyUpgraded()) {
-            return true;
-        }
-
-        try {
-            return application.getPackageName().equals(Config.PACKAGE_NAME_PRO);
-        } catch (Exception ignored) {
-        }
-
-        //If something goes wrong, assume the user has the pro version
-        return true;
+        return application.getPackageName().equals(Config.PACKAGE_NAME_PRO);
     }
 
     /**
@@ -211,6 +201,6 @@ public final class ShuttleUtils {
     }
 
     public static boolean canDrawBehindStatusBar() {
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH);
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH;
     }
 }

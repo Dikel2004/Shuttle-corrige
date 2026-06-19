@@ -88,7 +88,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
     private int[] getInstances(Context context) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        return (appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass())));
+        return appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
     }
 
     public void notifyChange(MusicService service, String what) {

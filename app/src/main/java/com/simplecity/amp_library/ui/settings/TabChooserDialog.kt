@@ -48,8 +48,8 @@ class TabChooserDialog : DialogFragment() {
             ItemTouchHelperCallback(
                 ItemTouchHelperCallback.OnItemMoveListener { fromPosition, toPosition -> adapter.moveItem(fromPosition, toPosition) },
                 ItemTouchHelperCallback.OnDropListener { _, _ -> },
-                ItemTouchHelperCallback.OnClearListener { },
-                ItemTouchHelperCallback.OnSwipeListener { }
+                ItemTouchHelperCallback.OnClearListener { /* No-op. */ },
+                ItemTouchHelperCallback.OnSwipeListener { /* No-op. */ }
             ))
 
         val listener = object : TabViewModel.Listener {

@@ -17,6 +17,7 @@ import com.simplecity.amp_library.model.AlbumArtist
 import com.simplecity.amp_library.model.Genre
 import com.simplecity.amp_library.model.Playlist
 import com.simplecity.amp_library.model.Song
+import com.simplecity.amp_library.utils.LogUtils
 import com.simplecity.amp_library.utils.StringUtils
 import com.simplecity.amp_library.utils.extensions.getSongsObservable
 import com.simplecity.amp_library.utils.extensions.getSongsSingle
@@ -262,7 +263,10 @@ class MediaIdHelper(
                     .map { albumArtist -> albumArtist.toMediaItem(mediaId) }
                     .toMutableList()
             }
-            .subscribe({ mediaItems -> completion(mediaItems) }, {})
+            .subscribe(
+                { mediaItems -> completion(mediaItems) },
+                { error -> LogUtils.logException(MediaIdHelper.TAG, "Failed to list artists", error) }
+            )
     }
 
     @SuppressLint("CheckResult")
@@ -274,7 +278,10 @@ class MediaIdHelper(
                     .map { playlist -> playlist.toMediaItem(mediaId) }
                     .toMutableList()
             }
-            .subscribe({ mediaItems -> completion(mediaItems) }, {})
+            .subscribe(
+                { mediaItems -> completion(mediaItems) },
+                { error -> LogUtils.logException(MediaIdHelper.TAG, "Failed to list playlists", error) }
+            )
     }
 
     @SuppressLint("CheckResult")
@@ -286,7 +293,10 @@ class MediaIdHelper(
                     .map { genre -> genre.toMediaItem(mediaId) }
                     .toMutableList()
             }
-            .subscribe({ mediaItems -> completion(mediaItems) }, {})
+            .subscribe(
+                { mediaItems -> completion(mediaItems) },
+                { error -> LogUtils.logException(MediaIdHelper.TAG, "Failed to list genres", error) }
+            )
     }
 
     @SuppressLint("CheckResult")
@@ -306,7 +316,10 @@ class MediaIdHelper(
                 .map { album -> album.toMediaItem(mediaId) }
                 .toMutableList()
         }
-            .subscribe({ mediaItems -> completion(mediaItems) }, {})
+            .subscribe(
+                { mediaItems -> completion(mediaItems) },
+                { error -> LogUtils.logException(MediaIdHelper.TAG, "Failed to list albums", error) }
+            )
     }
 
     @SuppressLint("CheckResult")
@@ -321,7 +334,10 @@ class MediaIdHelper(
                     .map { song -> song.toMediaItem(mediaId) }
                     .toMutableList()
             }
-            .subscribe({ mediaItems -> completion(mediaItems) }, {})
+            .subscribe(
+                { mediaItems -> completion(mediaItems) },
+                { error -> LogUtils.logException(MediaIdHelper.TAG, "Failed to list songs", error) }
+            )
     }
 
     private fun getSongsForPredicate(predicate: (Song) -> Boolean): Single<List<Song>> {

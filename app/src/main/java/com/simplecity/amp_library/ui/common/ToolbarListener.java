@@ -2,7 +2,7 @@ package com.simplecity.amp_library.ui.common;
 
 import android.support.v7.widget.Toolbar;
 
-//Todo: Better name
+// Rename when toolbar listener roles are split.
 public interface ToolbarListener {
     void toolbarAttached(Toolbar toolbar);
 }

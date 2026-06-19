@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.provider.MediaStore
 import android.support.v4.util.Pair
+import android.util.Log
 import com.simplecity.amp_library.R
 import com.simplecity.amp_library.data.PlaylistsRepository
 import com.simplecity.amp_library.data.SongsRepository
@@ -68,7 +69,7 @@ class FavoritesPlaylistManager @Inject constructor(
             }
             .subscribeOn(Schedulers.io())
             .subscribe(
-                { },
+                { Log.d(TAG, "Favorites cleared") },
                 { throwable -> LogUtils.logException(TAG, "clearFavorites error", throwable) }
             )
     }
@@ -134,6 +135,6 @@ class FavoritesPlaylistManager @Inject constructor(
 
     companion object {
 
-        private val TAG = "FavoritesPlaylistManage"
+        private const val TAG = "FavoritesPlaylistManager"
     }
 }

@@ -36,7 +36,7 @@ public class DrawerParent implements Parent<DrawerChild> {
                 Type.LIBRARY,
                 R.string.library_title,
                 R.drawable.ic_library_music_24dp,
-                NavigationEventRelay.librarySelectedEvent,
+                NavigationEventRelay.LIBRARY_SELECTED_EVENT,
                 true,
                 settingsManager);
     }
@@ -56,7 +56,7 @@ public class DrawerParent implements Parent<DrawerChild> {
                 Type.SLEEP_TIMER,
                 R.string.sleep_timer,
                 R.drawable.ic_sleep_24dp,
-                NavigationEventRelay.sleepTimerSelectedEvent,
+                NavigationEventRelay.SLEEP_TIMER_SELECTED_EVENT,
                 false,
                 settingsManager);
     }
@@ -66,7 +66,7 @@ public class DrawerParent implements Parent<DrawerChild> {
                 Type.EQUALIZER,
                 R.string.equalizer,
                 R.drawable.ic_equalizer_24dp,
-                NavigationEventRelay.equalizerSelectedEvent,
+                NavigationEventRelay.EQUALIZER_SELECTED_EVENT,
                 false,
                 settingsManager);
     }
@@ -76,7 +76,7 @@ public class DrawerParent implements Parent<DrawerChild> {
                 Type.SETTINGS,
                 R.string.settings,
                 R.drawable.ic_settings_24dp,
-                NavigationEventRelay.settingsSelectedEvent,
+                NavigationEventRelay.SETTINGS_SELECTED_EVENT,
                 false,
                 settingsManager);
     }
@@ -86,7 +86,7 @@ public class DrawerParent implements Parent<DrawerChild> {
                 Type.SUPPORT,
                 R.string.pref_title_support,
                 R.drawable.ic_help_24dp,
-                NavigationEventRelay.supportSelectedEvent,
+                NavigationEventRelay.SUPPORT_SELECTED_EVENT,
                 false,
                 settingsManager);
     }

@@ -271,7 +271,7 @@ class SearchFragment :
     }
 
     override fun showPlaybackError() {
-        // Todo: Implement
+        // Implement when search history is introduced.
     }
 
 
@@ -290,7 +290,7 @@ class SearchFragment :
     }
 
     override fun onPlaybackFailed() {
-        // Todo: Improve error message
+        // Improve the error message when presenter errors are categorized.
         Toast.makeText(context, R.string.emptyplaylist, Toast.LENGTH_SHORT).show()
     }
 

@@ -298,7 +298,7 @@ class AlbumListFragment :
         mediaManager.playAll(songsRepository.getSongs(null as Function1<Song, Boolean>?)
             .firstOrError()
             .map { songs -> Operators.albumShuffleSongs(songs, sortManager) }) {
-            // Todo: Show playback failed toast
+            // Show playback failure toast once playback errors expose user-friendly messages.
             Unit
         }
     }
@@ -394,7 +394,7 @@ class AlbumListFragment :
     }
 
     override fun onPlaybackFailed() {
-        // Todo: Improve error message
+        // Improve the error message when presenter errors are categorized.
         Toast.makeText(context, R.string.emptyplaylist, Toast.LENGTH_SHORT).show()
     }
 

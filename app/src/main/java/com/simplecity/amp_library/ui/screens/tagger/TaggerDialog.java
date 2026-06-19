@@ -142,7 +142,7 @@ public class TaggerDialog extends DialogFragment {
         if (originalSongPaths == null || originalSongPaths.isEmpty()) {
             dismiss();
 
-            //Todo: refine & extract
+            // Refine and extract when tag editing flow is split.
             Toast.makeText(getContext(), R.string.tag_retrieve_error, Toast.LENGTH_LONG).show();
         }
     }

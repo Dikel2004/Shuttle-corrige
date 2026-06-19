@@ -6,18 +6,18 @@ import java.util.Locale;
 
 public class ComparisonUtils {
 
-    private static Collator collator = Collator.getInstance(Locale.getDefault());
+    private static final Collator COLLATOR = Collator.getInstance(Locale.getDefault());
 
     private ComparisonUtils() {
 
     }
 
     public static int compareLong(long x, long y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+        return Long.compare(x, y);
     }
 
     public static int compareInt(int x, int y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+        return Integer.compare(x, y);
     }
 
     /**
@@ -32,7 +32,7 @@ public class ComparisonUtils {
         } else if (str1.equals(str2)) {
             return 0;
         } else {
-            return collator.compare(str1, str2);
+            return COLLATOR.compare(str1, str2);
         }
     }
 }

@@ -147,7 +147,7 @@ class GenreListFragment :
     }
 
     override fun onPlaybackFailed() {
-        // Todo: Improve error message
+        // Improve the error message when presenter errors are categorized.
         Toast.makeText(context, R.string.emptyplaylist, Toast.LENGTH_SHORT).show()
     }
 

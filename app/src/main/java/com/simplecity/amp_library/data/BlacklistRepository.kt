@@ -76,7 +76,7 @@ class WhitelistRepository @Inject constructor(private val inclExclDatabase: Brit
      * @return a **continuous** stream of type [InclExclItem.Type.INCLUDE] , backed by a behavior relay for caching query results.
      */
     override fun getWhitelistItems(songsRepository: Repository.SongsRepository): Observable<List<InclExclItem>> {
-        if (inclSubscription == null || inclSubscription?.isDisposed == true) {
+        if (inclSubscription.isMissingOrDisposed) {
             inclSubscription = getIncludeItems().subscribe(inclRelay)
         }
         return inclRelay.subscribeOn(Schedulers.io())
@@ -100,10 +100,13 @@ class BlacklistRepository @Inject constructor(private val inclExclDatabase: Brit
      * @return a **continuous** stream of type [InclExclItem.Type.EXCLUDE], backed by a behavior relay for caching query results.
      */
     override fun getBlacklistItems(songsRepository: Repository.SongsRepository): Observable<List<InclExclItem>> {
-        if (exclSubscription == null || exclSubscription?.isDisposed == true) {
+        if (exclSubscription.isMissingOrDisposed) {
             exclSubscription = getExcludeItems()
                 .subscribe(exclRelay)
         }
         return exclRelay.subscribeOn(Schedulers.io())
     }
 }
+
+private val Disposable?.isMissingOrDisposed: Boolean
+    get() = this == null || isDisposed

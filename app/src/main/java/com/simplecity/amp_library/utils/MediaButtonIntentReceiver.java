@@ -36,7 +36,7 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
 
     private static PowerManager.WakeLock wakeLock = null;
 
-    private static MediaButtonMessageHander mediaButtonMessageHander = new MediaButtonMessageHander();
+    private static final MediaButtonMessageHandler MEDIA_BUTTON_MESSAGE_HANDLER = new MediaButtonMessageHandler();
 
     @Inject
     PlaybackSettingsManager playbackSettingsManager;
@@ -100,7 +100,7 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
                         if ((MediaButtonCommand.TOGGLE_PAUSE.equals(command) ||
                                 MediaButtonCommand.PLAY.equals(command))) {
                             if (lastClickTime != 0 && eventTime - lastClickTime > LONG_PRESS_DELAY) {
-                                acquireWakeLockAndSendMessage(context, mediaButtonMessageHander.obtainMessage(MSG_LONGPRESS_TIMEOUT, context), 0);
+                                acquireWakeLockAndSendMessage(context, MEDIA_BUTTON_MESSAGE_HANDLER.obtainMessage(MSG_LONGPRESS_TIMEOUT, context), 0);
                             }
                         }
                     } else if (event.getRepeatCount() == 0) {
@@ -117,9 +117,9 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
 
                             clickCounter++;
 
-                            mediaButtonMessageHander.removeMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT);
+                            MEDIA_BUTTON_MESSAGE_HANDLER.removeMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT);
 
-                            Message msg = mediaButtonMessageHander.obtainMessage(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT, clickCounter, 0, context);
+                            Message msg = MEDIA_BUTTON_MESSAGE_HANDLER.obtainMessage(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT, clickCounter, 0, context);
 
                             long delay = clickCounter < 3 ? DOUBLE_CLICK : 0;
                             if (clickCounter >= 3) {
@@ -134,7 +134,7 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
                         down = true;
                     }
                 } else {
-                    mediaButtonMessageHander.removeMessages(MSG_LONGPRESS_TIMEOUT);
+                    MEDIA_BUTTON_MESSAGE_HANDLER.removeMessages(MSG_LONGPRESS_TIMEOUT);
                     down = false;
                 }
 
@@ -204,11 +204,11 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
         // Make sure we don't indefinitely hold the wake lock under any circumstances
         wakeLock.acquire(10000);
 
-        mediaButtonMessageHander.sendMessageDelayed(msg, delay);
+        MEDIA_BUTTON_MESSAGE_HANDLER.sendMessageDelayed(msg, delay);
     }
 
     static void releaseWakeLockIfHandlerIdle() {
-        if (mediaButtonMessageHander.hasMessages(MSG_LONGPRESS_TIMEOUT) || mediaButtonMessageHander.hasMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT)) {
+        if (MEDIA_BUTTON_MESSAGE_HANDLER.hasMessages(MSG_LONGPRESS_TIMEOUT) || MEDIA_BUTTON_MESSAGE_HANDLER.hasMessages(MSG_HEADSET_DOUBLE_CLICK_TIMEOUT)) {
             return;
         }
 
@@ -218,7 +218,7 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
         }
     }
 
-    private static class MediaButtonMessageHander extends Handler {
+    private static class MediaButtonMessageHandler extends Handler {
 
         @Override
         public void handleMessage(Message msg) {

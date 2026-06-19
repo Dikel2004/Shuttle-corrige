@@ -37,7 +37,7 @@ public class Playlist implements Serializable {
     public boolean canSort = true;
 
     // These are the Playlist rows that we will retrieve.
-    public static final String[] PROJECTION = new String[] {
+    private static final String[] PROJECTION = new String[] {
             MediaStore.Audio.Playlists._ID,
             MediaStore.Audio.Playlists.NAME
     };
@@ -45,7 +45,7 @@ public class Playlist implements Serializable {
     public static Query getQuery() {
         return new Query.Builder()
                 .uri(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI)
-                .projection(PROJECTION)
+                .projection(PROJECTION.clone())
                 .selection(null)
                 .sort(null)
                 .build();

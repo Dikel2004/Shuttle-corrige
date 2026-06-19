@@ -230,7 +230,9 @@ public class ColorHelper {
 
         private static final ThreadLocal<double[]> TEMP_ARRAY = new ThreadLocal<>();
 
-        private ColorUtilsFromCompat() {}
+        private ColorUtilsFromCompat() {
+            // No instances.
+        }
 
         /**
          * Composite two potentially translucent colors over each other and returns the result.

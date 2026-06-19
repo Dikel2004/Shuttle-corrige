@@ -45,7 +45,7 @@ public class PrefixHighlighter {
         if (view == null) {
             return;
         }
-        if ((prefix == null || prefix.length == 0)) {
+        if (prefix == null || prefix.length == 0) {
             view.setText(text);
         } else if (!TextUtils.isEmpty(text)) {
             view.setText(apply(text, prefix));

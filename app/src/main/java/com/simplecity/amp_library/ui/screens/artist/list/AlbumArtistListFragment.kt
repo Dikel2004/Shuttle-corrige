@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -271,7 +272,7 @@ class AlbumArtistListFragment :
             playlistMenuDisposable?.dispose()
 
             playlistMenuDisposable = playlistMenuHelper.createUpdatingPlaylistMenu(sub).subscribe(
-                { },
+                { Log.d(TAG, "Contextual toolbar playlist menu updated") },
                 { throwable -> LogUtils.logException(TAG, "setupContextualToolbar", throwable) }
             )
 
@@ -361,7 +362,7 @@ class AlbumArtistListFragment :
     }
 
     override fun onPlaybackFailed() {
-        // Todo: Improve error message
+        // Improve the error message when presenter errors are categorized.
         Toast.makeText(context, R.string.emptyplaylist, Toast.LENGTH_SHORT).show()
     }
 

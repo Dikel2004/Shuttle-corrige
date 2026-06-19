@@ -16,11 +16,11 @@ public class StringUtils {
 
     private static final String TAG = "StringUtils";
 
-    private static StringBuilder sFormatBuilder = new StringBuilder();
+    private static final StringBuilder FORMAT_BUILDER = new StringBuilder();
 
-    private static Formatter sFormatter = new Formatter(sFormatBuilder, Locale.getDefault());
+    private static final Formatter FORMATTER = new Formatter(FORMAT_BUILDER, Locale.getDefault());
 
-    private static Pattern pattern = Pattern.compile("^(?i)\\s*(?:the |an |a )|(?:, the|, an|, a)\\s*$|[\\[\\]()!?.,']");
+    private static final Pattern SORT_KEY_PATTERN = Pattern.compile("^(?i)\\s*(?:the |an |a )|(?:, the|, an|, a)\\s*$|[\\[\\]()!?.,']");
 
     private StringUtils() {
 
@@ -29,14 +29,14 @@ public class StringUtils {
     /**
      * Method makeTimeString.
      * <p>
-     * Todo: Move to StringUtils or somewhere else
+     * Move to a dedicated text helper when this class is split.
      *
      * @param context Context
      * @param secs long
      * @return String
      */
     public static String makeTimeString(@NonNull Context context, long secs) {
-        sFormatBuilder.setLength(0);
+        FORMAT_BUILDER.setLength(0);
         //return (secs < 0 ? "- " : "") + (Math.abs(secs) < 3600 ? makeShortTimeString(context, Math.abs(secs)) : makeLongTimeString(context, Math.abs(secs)));
         return Math.abs(secs) < 3600 ? makeShortTimeString(context, secs) : makeLongTimeString(context, secs);
     }
@@ -51,8 +51,8 @@ public class StringUtils {
 
     private static String makeTimeString(String formatString, long secs) {
         long absSeconds = Math.abs(secs);
-        sFormatBuilder.setLength(0);
-        return sFormatter.format(formatString,
+        FORMAT_BUILDER.setLength(0);
+        return FORMATTER.format(formatString,
                 secs < 0 ? "- " : "",
                 absSeconds / 3600,
                 absSeconds / 60,
@@ -82,9 +82,9 @@ public class StringUtils {
             } else {
                 final String f = r.getQuantityText(R.plurals.Nfolders, numSubfolders)
                         .toString();
-                sFormatBuilder.setLength(0);
-                sFormatter.format(f, numSubfolders);
-                string.append(sFormatBuilder);
+                FORMAT_BUILDER.setLength(0);
+                FORMATTER.format(f, numSubfolders);
+                string.append(FORMAT_BUILDER);
             }
         }
 
@@ -97,9 +97,9 @@ public class StringUtils {
                 string.append(context.getString(R.string.onesong));
             } else {
                 final String f = r.getQuantityText(R.plurals.Nsongs, numSubfiles).toString();
-                sFormatBuilder.setLength(0);
-                sFormatter.format(f, numSubfiles);
-                string.append(sFormatBuilder);
+                FORMAT_BUILDER.setLength(0);
+                FORMATTER.format(f, numSubfiles);
+                string.append(FORMAT_BUILDER);
             }
         }
 
@@ -118,9 +118,9 @@ public class StringUtils {
         String f;
         if (numalbums > 0) {
             f = r.getQuantityText(R.plurals.Nalbums, numalbums).toString();
-            sFormatBuilder.setLength(0);
-            sFormatter.format(f, numalbums);
-            stringBuilder.append(sFormatBuilder);
+            FORMAT_BUILDER.setLength(0);
+            FORMATTER.format(f, numalbums);
+            stringBuilder.append(FORMAT_BUILDER);
         }
 
         if (numalbums > 0 && numsongs > 0) {
@@ -130,9 +130,9 @@ public class StringUtils {
             stringBuilder.append(context.getString(R.string.onesong));
         } else if (numsongs > 0) {
             f = r.getQuantityText(R.plurals.Nsongs, numsongs).toString();
-            sFormatBuilder.setLength(0);
-            sFormatter.format(f, numsongs);
-            stringBuilder.append(sFormatBuilder);
+            FORMAT_BUILDER.setLength(0);
+            FORMATTER.format(f, numsongs);
+            stringBuilder.append(FORMAT_BUILDER);
         }
         return stringBuilder.toString();
     }
@@ -140,9 +140,9 @@ public class StringUtils {
     public static String makeAlbumsLabel(Context context, int numAlbums) {
         final StringBuilder stringBuilder = new StringBuilder();
         String formatString = context.getResources().getQuantityText(R.plurals.Nalbums, numAlbums).toString();
-        sFormatBuilder.setLength(0);
-        sFormatter.format(formatString, numAlbums);
-        stringBuilder.append(sFormatBuilder);
+        FORMAT_BUILDER.setLength(0);
+        FORMATTER.format(formatString, numAlbums);
+        stringBuilder.append(FORMAT_BUILDER);
 
         return stringBuilder.toString();
     }
@@ -150,9 +150,9 @@ public class StringUtils {
     public static String makeSongsLabel(Context context, int numSongs) {
         final StringBuilder stringBuilder = new StringBuilder();
         String formatString = context.getResources().getQuantityText(R.plurals.Nsongs, numSongs).toString();
-        sFormatBuilder.setLength(0);
-        sFormatter.format(formatString, numSongs);
-        stringBuilder.append(sFormatBuilder);
+        FORMAT_BUILDER.setLength(0);
+        FORMATTER.format(formatString, numSongs);
+        stringBuilder.append(FORMAT_BUILDER);
 
         return stringBuilder.toString();
     }
@@ -188,7 +188,7 @@ public class StringUtils {
     public static String keyFor(String name) {
 
         if (!TextUtils.isEmpty(name)) {
-            name = pattern.matcher(name)
+            name = SORT_KEY_PATTERN.matcher(name)
                     .replaceAll("")
                     .trim()
                     .toLowerCase();

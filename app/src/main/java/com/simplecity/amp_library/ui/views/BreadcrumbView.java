@@ -20,7 +20,6 @@ import com.simplecity.amp_library.utils.FileHelper;
 import io.reactivex.disposables.Disposable;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.afollestad.aesthetic.Rx.distinctToMainThread;
@@ -77,7 +76,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
      */
     private void init() {
         //Initialise the listeners
-        this.mBreadcrumbListeners = Collections.synchronizedList(new ArrayList<BreadcrumbListener>());
+        this.mBreadcrumbListeners = new ArrayList<>();
 
         //Add the view of the breadcrumb
         addView(inflate(getContext(), R.layout.breadcrumb_view, null));

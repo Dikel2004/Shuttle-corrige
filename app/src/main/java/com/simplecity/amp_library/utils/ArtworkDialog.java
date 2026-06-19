@@ -176,7 +176,7 @@ public class ArtworkDialog {
                                     return RxImageConverters.uriToFile(context, uri, file);
                                 }
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                LogUtils.logException(TAG, "Failed to create artwork file", e);
                             }
 
                             return null;

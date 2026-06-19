@@ -13,11 +13,11 @@ import javax.inject.Singleton;
 @Singleton
 public class NavigationEventRelay {
 
-    static NavigationEvent librarySelectedEvent = new NavigationEvent(NavigationEvent.Type.LIBRARY_SELECTED);
-    static NavigationEvent sleepTimerSelectedEvent = new NavigationEvent(NavigationEvent.Type.SLEEP_TIMER_SELECTED);
-    static NavigationEvent equalizerSelectedEvent = new NavigationEvent(NavigationEvent.Type.EQUALIZER_SELECTED);
-    static NavigationEvent settingsSelectedEvent = new NavigationEvent(NavigationEvent.Type.SETTINGS_SELECTED);
-    static NavigationEvent supportSelectedEvent = new NavigationEvent(NavigationEvent.Type.SUPPORT_SELECTED);
+    static final NavigationEvent LIBRARY_SELECTED_EVENT = new NavigationEvent(NavigationEvent.Type.LIBRARY_SELECTED);
+    static final NavigationEvent SLEEP_TIMER_SELECTED_EVENT = new NavigationEvent(NavigationEvent.Type.SLEEP_TIMER_SELECTED);
+    static final NavigationEvent EQUALIZER_SELECTED_EVENT = new NavigationEvent(NavigationEvent.Type.EQUALIZER_SELECTED);
+    static final NavigationEvent SETTINGS_SELECTED_EVENT = new NavigationEvent(NavigationEvent.Type.SETTINGS_SELECTED);
+    static final NavigationEvent SUPPORT_SELECTED_EVENT = new NavigationEvent(NavigationEvent.Type.SUPPORT_SELECTED);
 
     static NavigationEvent getFoldersSelectedEvent(ShuttleApplication application, SettingsManager settingsManager) {
         return new NavigationEvent(NavigationEvent.Type.FOLDERS_SELECTED) {

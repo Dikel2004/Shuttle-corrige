@@ -47,8 +47,8 @@ public class QuickLyricUtils {
      * @return true if the Play Store is available, and this QuickLyric can be downloaded.
      */
     static boolean canDownloadQuickLyric(Context context) {
-        if (ShuttleUtils.isAmazonBuild()) return false;
-        return getQuickLyricIntent().resolveActivity(context.getPackageManager()) != null;
+        return !ShuttleUtils.isAmazonBuild()
+                && getQuickLyricIntent().resolveActivity(context.getPackageManager()) != null;
     }
 
     /**

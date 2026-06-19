@@ -1,17 +1,29 @@
 package com.simplecity.amp_library.http;
 
 import android.util.Log;
+import com.simplecity.amp_library.utils.LogUtils;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HttpServer {
 
     private static final String TAG = "HttpServer";
+    private static final int PORT = 5000;
+    private static final String HEADER_CONTENT_LENGTH = "Content-Length";
+    private static final String HEADER_CONTENT_RANGE = "Content-Range";
+    private static final String HEADER_CONTENT_TYPE = "Content-Type";
+    private static final String HEADER_RANGE = "range";
+    private static final String RANGE_PREFIX = "bytes=";
+    private static final String MIME_IMAGE_PNG = "image/png";
+    private static final String MIME_TEXT_HTML = "text/html";
+    private static final String RESPONSE_FILE_NOT_FOUND = "File not found";
+    private static final Map<String, String> MIME_TYPES = createMimeTypes();
 
     private static HttpServer sHttpServer;
 
@@ -75,7 +87,7 @@ public class HttpServer {
     private class NanoServer extends NanoHTTPD {
 
         NanoServer() {
-            super(5000);
+            super(PORT);
         }
 
         @Override
@@ -83,7 +95,7 @@ public class HttpServer {
 
             if (audioFileToServe == null) {
                 Log.e(TAG, "Audio file to serve null");
-                return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/html", "File not found");
+                return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_TEXT_HTML, RESPONSE_FILE_NOT_FOUND);
             }
 
             String uri = session.getUri();
@@ -94,21 +106,21 @@ public class HttpServer {
                     Map<String, String> headers = session.getHeaders();
                     String range = null;
                     for (String key : headers.keySet()) {
-                        if ("range".equals(key)) {
+                        if (HEADER_RANGE.equals(key)) {
                             range = headers.get(key);
                         }
                     }
 
                     if (range == null) {
-                        range = "bytes=0-";
-                        session.getHeaders().put("range", range);
+                        range = RANGE_PREFIX + "0-";
+                        session.getHeaders().put(HEADER_RANGE, range);
                     }
 
                     long start;
                     long end;
                     long fileLength = file.length();
 
-                    String rangeValue = range.trim().substring("bytes=".length());
+                    String rangeValue = range.trim().substring(RANGE_PREFIX.length());
 
                     if (rangeValue.startsWith("-")) {
                         end = fileLength - 1;
@@ -126,30 +138,29 @@ public class HttpServer {
                         long contentLength = end - start + 1;
                         cleanupAudioStream();
                         audioInputStream = new FileInputStream(file);
-                        audioInputStream.skip(start);
+                        skipFully(audioInputStream, start);
                         Response response = newFixedLengthResponse(Response.Status.PARTIAL_CONTENT, getMimeType(audioFileToServe), audioInputStream, contentLength);
-                        response.addHeader("Content-Length", contentLength + "");
-                        response.addHeader("Content-Range", "bytes " + start + "-" + end + "/" + fileLength);
-                        response.addHeader("Content-Type", getMimeType(audioFileToServe));
+                        response.addHeader(HEADER_CONTENT_LENGTH, String.valueOf(contentLength));
+                        response.addHeader(HEADER_CONTENT_RANGE, "bytes " + start + "-" + end + "/" + fileLength);
+                        response.addHeader(HEADER_CONTENT_TYPE, getMimeType(audioFileToServe));
                         return response;
                     } else {
-                        return newFixedLengthResponse(Response.Status.RANGE_NOT_SATISFIABLE, "text/html", range);
+                        return newFixedLengthResponse(Response.Status.RANGE_NOT_SATISFIABLE, MIME_TEXT_HTML, range);
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "Error serving audio: " + e.getMessage());
-                    e.printStackTrace();
+                    LogUtils.logException(TAG, "Error serving audio", e);
                 }
             } else if (uri.contains("image")) {
                 if (imageBytesToServe == null) {
-                    return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/html", "Image bytes null");
+                    return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_TEXT_HTML, "Image bytes null");
                 }
                 cleanupImageStream();
                 imageInputStream = new ByteArrayInputStream(imageBytesToServe);
                 Log.i(TAG, "Serving image bytes: " + imageBytesToServe.length);
-                return newFixedLengthResponse(Response.Status.OK, "image/png", imageInputStream, imageBytesToServe.length);
+                return newFixedLengthResponse(Response.Status.OK, MIME_IMAGE_PNG, imageInputStream, imageBytesToServe.length);
             }
             Log.e(TAG, "Returning NOT_FOUND response");
-            return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/html", "File not found");
+            return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_TEXT_HTML, RESPONSE_FILE_NOT_FOUND);
         }
     }
 
@@ -171,34 +182,47 @@ public class HttpServer {
         }
     }
 
-    private final Map<String, String> MIME_TYPES = new HashMap<String, String>() {{
-        put("css", "text/css");
-        put("htm", "text/html");
-        put("html", "text/html");
-        put("xml", "text/xml");
-        put("java", "text/x-java-source, text/java");
-        put("md", "text/plain");
-        put("txt", "text/plain");
-        put("asc", "text/plain");
-        put("gif", "image/gif");
-        put("jpg", "image/jpeg");
-        put("jpeg", "image/jpeg");
-        put("png", "image/png");
-        put("mp3", "audio/mpeg");
-        put("m3u", "audio/mpeg-url");
-        put("mp4", "video/mp4");
-        put("ogv", "video/ogg");
-        put("flv", "video/x-flv");
-        put("mov", "video/quicktime");
-        put("swf", "application/x-shockwave-flash");
-        put("js", "application/javascript");
-        put("pdf", "application/pdf");
-        put("doc", "application/msword");
-        put("ogg", "application/x-ogg");
-        put("zip", "application/octet-stream");
-        put("exe", "application/octet-stream");
-        put("class", "application/octet-stream");
-    }};
+    private static void skipFully(FileInputStream inputStream, long bytesToSkip) throws IOException {
+        long remaining = bytesToSkip;
+        while (remaining > 0) {
+            long skipped = inputStream.skip(remaining);
+            if (skipped <= 0) {
+                throw new IOException("Unable to skip requested bytes: " + bytesToSkip);
+            }
+            remaining -= skipped;
+        }
+    }
+
+    private static Map<String, String> createMimeTypes() {
+        Map<String, String> mimeTypes = new HashMap<>();
+        mimeTypes.put("css", "text/css");
+        mimeTypes.put("htm", MIME_TEXT_HTML);
+        mimeTypes.put("html", MIME_TEXT_HTML);
+        mimeTypes.put("xml", "text/xml");
+        mimeTypes.put("java", "text/x-java-source, text/java");
+        mimeTypes.put("md", "text/plain");
+        mimeTypes.put("txt", "text/plain");
+        mimeTypes.put("asc", "text/plain");
+        mimeTypes.put("gif", "image/gif");
+        mimeTypes.put("jpg", "image/jpeg");
+        mimeTypes.put("jpeg", "image/jpeg");
+        mimeTypes.put("png", MIME_IMAGE_PNG);
+        mimeTypes.put("mp3", "audio/mpeg");
+        mimeTypes.put("m3u", "audio/mpeg-url");
+        mimeTypes.put("mp4", "video/mp4");
+        mimeTypes.put("ogv", "video/ogg");
+        mimeTypes.put("flv", "video/x-flv");
+        mimeTypes.put("mov", "video/quicktime");
+        mimeTypes.put("swf", "application/x-shockwave-flash");
+        mimeTypes.put("js", "application/javascript");
+        mimeTypes.put("pdf", "application/pdf");
+        mimeTypes.put("doc", "application/msword");
+        mimeTypes.put("ogg", "application/x-ogg");
+        mimeTypes.put("zip", "application/octet-stream");
+        mimeTypes.put("exe", "application/octet-stream");
+        mimeTypes.put("class", "application/octet-stream");
+        return Collections.unmodifiableMap(mimeTypes);
+    }
 
     String getMimeType(String filePath) {
         return MIME_TYPES.get(filePath.substring(filePath.lastIndexOf(".") + 1));

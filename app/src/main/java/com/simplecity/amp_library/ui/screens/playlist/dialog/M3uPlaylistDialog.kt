@@ -69,7 +69,7 @@ class M3uPlaylistDialog : DialogFragment() {
                             try {
                                 noMedia.createNewFile()
                             } catch (e: IOException) {
-                                e.printStackTrace()
+                                LogUtils.logException(TAG, "Failed to create .nomedia file", e)
                             }
                         }
 
@@ -96,7 +96,7 @@ class M3uPlaylistDialog : DialogFragment() {
                                     .append(" - ")
                                     .append(song.artistName)
                                     .append("\n")
-                                    //Todo: Use relative paths instead of absolute
+                                    // Use relative paths once imported playlist locations are normalized.
                                     .append(song.path)
                                     .append("\n")
                             }

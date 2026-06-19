@@ -76,8 +76,8 @@ public class ShuttleApplication extends DaggerApplication {
 
     public HashMap<String, UserSelectedArtwork> userSelectedArtwork = new HashMap<>();
 
-    private static Logger jaudioTaggerLogger1 = Logger.getLogger("org.jaudiotagger.audio");
-    private static Logger jaudioTaggerLogger2 = Logger.getLogger("org.jaudiotagger");
+    private static final Logger JAUDIO_TAGGER_AUDIO_LOGGER = Logger.getLogger("org.jaudiotagger.audio");
+    private static final Logger JAUDIO_TAGGER_LOGGER = Logger.getLogger("org.jaudiotagger");
 
     @Inject
     Repository.SongsRepository songsRepository;
@@ -102,7 +102,7 @@ public class ShuttleApplication extends DaggerApplication {
             return;
         }
 
-        // Todo: Remove for production builds. Useful for tracking down crashes in beta.
+        // Remove for production builds. Useful for tracking down crashes in beta.
         RxDogTag.install();
 
         if (BuildConfig.DEBUG) {
@@ -142,8 +142,8 @@ public class ShuttleApplication extends DaggerApplication {
         }
 
         // Turn off logging for jaudiotagger.
-        jaudioTaggerLogger1.setLevel(Level.OFF);
-        jaudioTaggerLogger2.setLevel(Level.OFF);
+        JAUDIO_TAGGER_AUDIO_LOGGER.setLevel(Level.OFF);
+        JAUDIO_TAGGER_LOGGER.setLevel(Level.OFF);
 
         TagOptionSingleton.getInstance().setPadNumbers(true);
 

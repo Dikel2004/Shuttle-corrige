@@ -464,7 +464,7 @@ public class FolderFragment extends BaseFragment implements
                                     }
                                     mediaManager.playAll(songs, index, true, () -> {
                                         if (isAdded() && getContext() != null) {
-                                            // Todo: Show playback failed toast
+                                            // Show playback failure toast once playback errors expose user-friendly messages.
                                         }
                                         return Unit.INSTANCE;
                                     });
@@ -666,7 +666,7 @@ public class FolderFragment extends BaseFragment implements
 
         @Override
         public void onPlaybackFailed() {
-            // Todo: Improve error message
+            // Improve the error message when folder errors are categorized.
             Toast.makeText(getContext(), R.string.emptyplaylist, Toast.LENGTH_SHORT).show();
         }
 

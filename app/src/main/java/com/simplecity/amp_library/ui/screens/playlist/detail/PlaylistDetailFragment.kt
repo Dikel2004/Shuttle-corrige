@@ -149,7 +149,7 @@ class PlaylistDetailFragment :
 
         adapter = ViewModelAdapter()
 
-        // Todo: On playlist deleted
+        // Handle playlist deletion after delete events are emitted here.
         //Toast.makeText(getContext(), R.string.playlist_deleted_message, Toast.LENGTH_SHORT).show();
         //getNavigationController().popViewController();
     }
@@ -614,7 +614,7 @@ class PlaylistDetailFragment :
     // PlaylistMenuContract.View Implementation
 
     override fun onPlaybackFailed() {
-        // Todo: Improve error message
+        // Improve the error message when presenter errors are categorized.
         Toast.makeText(context, R.string.empty_playlist, Toast.LENGTH_SHORT).show()
     }
 

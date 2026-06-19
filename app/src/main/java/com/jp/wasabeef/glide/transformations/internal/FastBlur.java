@@ -58,7 +58,7 @@ public class FastBlur {
         }
 
         if (radius < 1) {
-            return (null);
+            return null;
         }
 
         int w = bitmap.getWidth();
@@ -252,6 +252,6 @@ public class FastBlur {
 
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
-        return (bitmap);
+        return bitmap;
     }
 }

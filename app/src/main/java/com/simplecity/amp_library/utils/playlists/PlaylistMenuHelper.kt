@@ -1,6 +1,7 @@
 package com.simplecity.amp_library.utils.playlists
 
 import android.content.Intent
+import android.util.Log
 import android.view.SubMenu
 import com.simplecity.amp_library.R
 import com.simplecity.amp_library.data.PlaylistsRepository
@@ -19,7 +20,7 @@ class PlaylistMenuHelper @Inject constructor(
     fun createPlaylistMenu(subMenu: SubMenu): Disposable {
         return createPlaylistMenu(subMenu, false)
             .subscribe(
-                { },
+                { Log.d(TAG, "Playlist menu created") },
                 { throwable -> LogUtils.logException(TAG, "createPlaylistMenu error", throwable) }
             )
     }

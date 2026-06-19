@@ -29,7 +29,7 @@ class PlaylistsRepository @Inject constructor(
     private val playlistsRelay = BehaviorRelay.create<List<Playlist>>()
 
     override fun getPlaylists(): Observable<List<Playlist>> {
-        if (playlistsSubscription == null || playlistsSubscription?.isDisposed == true) {
+        if (playlistsSubscription.isMissingOrDisposed) {
             playlistsSubscription = SqlBriteUtils.createObservableList(
                 context,
                 { cursor -> Playlist(context, cursor) },
@@ -47,7 +47,7 @@ class PlaylistsRepository @Inject constructor(
         val defaultPlaylistsObservable = Observable.fromCallable<List<Playlist>> {
             val playlists = mutableListOf<Playlist>()
 
-            // Todo: Hide Podcasts if there are no songs
+            // Hide Podcasts if there are no songs once playlist counts are cached.
             playlists.add(getPodcastPlaylist())
             playlists.add(getRecentlyAddedPlaylist())
             playlists.add(getMostPlayedPlaylist())
@@ -152,3 +152,6 @@ class PlaylistsRepository @Inject constructor(
     }
 
 }
+
+private val Disposable?.isMissingOrDisposed: Boolean
+    get() = this == null || isDisposed
