@@ -11,12 +11,12 @@ import java.io.InputStream;
 public class CustomGlideModule implements GlideModule {
 
     public CustomGlideModule() {
-
+        // Required empty constructor for Glide module discovery.
     }
 
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-
+        // Default Glide options are used.
     }
 
     @Override

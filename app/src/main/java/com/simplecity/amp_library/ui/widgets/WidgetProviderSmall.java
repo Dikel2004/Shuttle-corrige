@@ -26,6 +26,7 @@ public class WidgetProviderSmall extends BaseWidgetProvider {
 
     @Inject
     public WidgetProviderSmall() {
+        // Required empty constructor for Dagger injection.
     }
 
     @Override

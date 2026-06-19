@@ -56,6 +56,7 @@ public class InputMethodManagerLeaks {
 
         @Override
         public void onViewAttachedToWindow(View v) {
+            // No action is needed until the view detaches.
         }
 
         @Override
@@ -174,7 +175,7 @@ public class InputMethodManagerLeaks {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+                // Lifecycle callback intentionally unused.
             }
 
             @Override
@@ -189,27 +190,27 @@ public class InputMethodManagerLeaks {
 
             @Override
             public void onActivityResumed(Activity activity) {
-
+                // Lifecycle callback intentionally unused.
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-
+                // Lifecycle callback intentionally unused.
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                // Lifecycle callback intentionally unused.
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
+                // Lifecycle callback intentionally unused.
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
+                // Lifecycle callback intentionally unused.
             }
         });
     }

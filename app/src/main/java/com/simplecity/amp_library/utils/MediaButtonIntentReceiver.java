@@ -42,7 +42,7 @@ public class MediaButtonIntentReceiver extends DaggerBroadcastReceiver {
     PlaybackSettingsManager playbackSettingsManager;
 
     public MediaButtonIntentReceiver() {
-
+        // Required empty constructor for broadcast receiver instantiation.
     }
 
     @Override

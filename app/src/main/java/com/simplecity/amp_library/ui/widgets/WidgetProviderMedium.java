@@ -26,6 +26,7 @@ public class WidgetProviderMedium extends BaseWidgetProvider {
 
     @Inject
     public WidgetProviderMedium() {
+        // Required empty constructor for Dagger injection.
     }
 
     @Override

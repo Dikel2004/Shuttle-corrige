@@ -35,50 +35,62 @@ public class TagUpdate {
         try {
             this.title = tag.getFirst(FieldKey.TITLE);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.album = tag.getFirst(FieldKey.ALBUM);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.artist = tag.getFirst(FieldKey.ARTIST);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.albumArtist = tag.getFirst(FieldKey.ALBUM_ARTIST);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.genre = tag.getFirst(FieldKey.GENRE);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.year = tag.getFirst(FieldKey.YEAR);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.track = tag.getFirst(FieldKey.TRACK);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.trackTotal = tag.getFirst(FieldKey.TRACK_TOTAL);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.disc = tag.getFirst(FieldKey.DISC_NO);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.discTotal = tag.getFirst(FieldKey.DISC_TOTAL);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.lyrics = tag.getFirst(FieldKey.LYRICS);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
         try {
             this.comment = tag.getFirst(FieldKey.COMMENT);
         } catch (UnsupportedOperationException ignored) {
+            // Some tag formats do not support this field.
         }
     }
 
@@ -217,72 +229,84 @@ public class TagUpdate {
             try {
                 tag.setField(FieldKey.TITLE, title);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (albumHasChanged) {
             try {
                 tag.setField(FieldKey.ALBUM, album);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (artistHasChanged) {
             try {
                 tag.setField(FieldKey.ARTIST, artist);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (albumArtistHasChanged) {
             try {
                 tag.setField(FieldKey.ALBUM_ARTIST, albumArtist);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (genreHasChanged) {
             try {
                 tag.setField(FieldKey.GENRE, genre);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (yearHasChanged) {
             try {
                 tag.setField(FieldKey.YEAR, year);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (trackHasChanged) {
             try {
                 tag.setField(FieldKey.TRACK, track);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (trackTotalHasChanged) {
             try {
                 tag.setField(FieldKey.TRACK_TOTAL, trackTotal);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (discHasChanged) {
             try {
                 tag.setField(FieldKey.DISC_NO, disc);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (discTotalHasChanged) {
             try {
                 tag.setField(FieldKey.DISC_TOTAL, discTotal);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (lyricsHasChanged) {
             try {
                 tag.setField(FieldKey.LYRICS, lyrics);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
         if (commentHasChanged) {
             try {
                 tag.setField(FieldKey.COMMENT, comment);
             } catch (Exception ignored) {
+                // Unsupported fields are skipped for this tag format.
             }
         }
     }

@@ -35,6 +35,6 @@ public class BlacklistWhitelistDbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        // Version 1 has no migration path.
     }
 }
