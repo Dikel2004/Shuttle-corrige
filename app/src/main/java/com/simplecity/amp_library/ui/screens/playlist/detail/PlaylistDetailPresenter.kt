@@ -21,7 +21,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
-import java.util.Random
+import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 
 class PlaylistDetailPresenter @AssistedInject constructor(
@@ -43,6 +43,8 @@ class PlaylistDetailPresenter @AssistedInject constructor(
     private var songs: MutableList<Song> = mutableListOf()
 
     private var currentSlideShowAlbum: Album? = null
+
+    private val random = SecureRandom()
 
     override fun bindView(view: PlaylistDetailView) {
         super.bindView(view)
@@ -115,7 +117,7 @@ class PlaylistDetailPresenter @AssistedInject constructor(
                 if (albums.isEmpty()) {
                     currentSlideShowAlbum
                 } else {
-                    albums[(Random().nextInt(albums.size))]
+                    albums[random.nextInt(albums.size)]
                 }
             }
             .subscribeOn(Schedulers.io())
