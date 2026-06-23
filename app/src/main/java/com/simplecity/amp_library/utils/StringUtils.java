@@ -26,6 +26,13 @@ public class StringUtils {
 
     }
 
+    public static String firstLetterOrBlank(@Nullable String string) {
+        if (string != null && !string.isEmpty()) {
+            return string.substring(0, 1).toUpperCase();
+        }
+        return " ";
+    }
+
     /**
      * Method makeTimeString.
      * <p>

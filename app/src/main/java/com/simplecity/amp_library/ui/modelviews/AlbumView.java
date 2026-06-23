@@ -195,11 +195,7 @@ public class AlbumView extends MultiItemView<AlbumView.ViewHolder, Album> implem
         }
 
         if (requiresSubstring) {
-            if (string != null && !string.isEmpty()) {
-                string = string.substring(0, 1).toUpperCase();
-            } else {
-                string = " ";
-            }
+            string = StringUtils.firstLetterOrBlank(string);
         }
 
         return string;
